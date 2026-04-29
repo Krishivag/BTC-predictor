@@ -167,7 +167,7 @@ def save_prediction(lower, upper, current_price):
     """Save current prediction to history file."""
     history = load_history()
 
-    # Don't save duplicate if last prediction was < 5 min ago
+    # Don't save duplicate if we already made a prediction in this current hour block
     now = datetime.now(timezone.utc)
     if history:
         last_ts = history[-1]["timestamp"]
@@ -175,8 +175,10 @@ def save_prediction(lower, upper, current_price):
         # Ensure timezone-aware comparison
         if last_time.tzinfo is None:
             last_time = last_time.replace(tzinfo=timezone.utc)
-        if (now - last_time).total_seconds() < 300:
-            return  # Skip -- too recent
+            
+        # Skip if the last prediction was made during the exact same hour
+        if now.replace(minute=0, second=0, microsecond=0) == last_time.replace(minute=0, second=0, microsecond=0):
+            return  # Skip -- already logged a prediction for this hour
 
     history.append({
         "timestamp": now.isoformat(),
