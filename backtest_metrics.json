@@ -1,0 +1,8 @@
+{
+  "coverage_95": 0.9360222531293463,
+  "avg_width": 1533.0867593880391,
+  "mean_winkler_95": 2168.177162726011,
+  "total_predictions": 719,
+  "total_hits": 673,
+  "total_misses": 46
+}
