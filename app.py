@@ -421,7 +421,7 @@ if history:
 
     # Add hit/miss column where actuals are available
     def check_hit(row):
-        if row["actual"] is None:
+        if pd.isna(row["actual"]):
             return "⏳ Pending"
         if row["lower_95"] <= row["actual"] <= row["upper_95"]:
             return "✅ Hit"
